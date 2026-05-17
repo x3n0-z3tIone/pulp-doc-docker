@@ -24,7 +24,8 @@ RUN curl https://pyenv.run | bash \
 RUN python -m pip install --user pipx \
     && python -m pipx ensurepath \
     && pipx install git+https://github.com/pulp/pulp-docs.git@main \
-    && rm -rf ~/.cache/pip ~/.cache/pipx
+    && find ~/.cache/pip -name "*.whl" -delete \
+    && rm -rf ~/.cache/pipx/cache
 
 RUN RUN set -eux; \
     mkdir -p /opt/pulp && \
