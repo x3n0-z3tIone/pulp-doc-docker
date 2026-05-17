@@ -5,6 +5,7 @@ ENV TZ=UTC
 ENV PYENV_ROOT="/root/.pyenv"
 ENV PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
 ENV PIPX_DEFAULT_PYTHON="$PYENV_ROOT/shims/python"
+ENV PATH="/root/.local/bin:$PATH"
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
         curl git build-essential libssl-dev zlib1g-dev libbz2-dev \
@@ -21,7 +22,7 @@ RUN curl https://pyenv.run | bash \
     && pyenv global 3.11.12 \
     && rm -rf "$PYENV_ROOT/cache"
 
-RUN python -m pip install --user pipx \
+RUN python -m pip install --user pipx uv \
     && python -m pipx ensurepath \
     && pipx install git+https://github.com/pulp/pulp-docs.git@main \
     && find ~/.cache/pip -name "*.whl" -delete \
@@ -39,4 +40,9 @@ RUN RUN set -eux; \
         git clone --depth=1 https://github.com/pulp/${repo}.git; \
     done
 
-CMD ["bash", "-c", "cd /opt/pulp/pulp-docs && pulp-docs serve"]
+LABEL org.opencontainers.image.licenses="MIT" \
+      org.opencontainers.image.source="https://github.com/pulp/pulp-docs"
+
+EXPOSE 8000
+
+CMD ["bash", "-c", "cd /opt/pulp/pulp-docs && pulp-docs serve --dev-addr=0.0.0.0:8000"]
