@@ -12,6 +12,8 @@ RUN set -eux; \
         libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils \
         tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev \
         ca-certificates python3 python-is-python3 pipx python3-pip \
+        libcairo2-dev libgirepository1.0-dev gir1.2-glib-2.0 \
+        pkg-config python3-dev gir1.2-ostree-1.0 libostree-dev\
  && rm -rf /var/lib/apt/lists/*
 
 ENV PYENV_ROOT="/root/.pyenv"
@@ -42,9 +44,5 @@ RUN RUN set -eux; \
     do \
         git clone --depth=1 https://github.com/pulp/${repo}.git; \
     done
-
-RUN apt update && apt upgrade -y && apt install -y libcairo2-dev libgirepository1.0-dev gir1.2-glib-2.0 \
-                    pkg-config python3-dev \
-                    gir1.2-ostree-1.0 libostree-dev && rm -rf /var/lib/apt/lists/*
 
 CMD ["bash", "-c", "cd /opt/pulp/pulp-docs && pulp-docs serve"]
