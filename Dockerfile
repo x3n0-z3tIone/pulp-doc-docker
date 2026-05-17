@@ -26,7 +26,7 @@ RUN python -m pip install --user pipx \
     && pipx install git+https://github.com/pulp/pulp-docs.git@main \
     && rm -rf ~/.cache/pip ~/.cache/pipx
 
-RUN set -eux; \
+RUN RUN set -eux; \
     mkdir -p /opt/pulp && \
     cd /opt/pulp && \
     for repo in \
