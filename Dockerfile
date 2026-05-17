@@ -40,8 +40,9 @@ RUN RUN set -eux; \
         git clone --depth=1 https://github.com/pulp/${repo}.git; \
     done
 
-LABEL org.opencontainers.image.licenses="MIT" \
-      org.opencontainers.image.source="https://github.com/x3n0-z3tIone/pulp-doc-docker.git"
+LABEL org.opencontainers.image.licenses="MIT"
+      
+LABEL org.opencontainers.image.source="https://github.com/x3n0-z3tIone/pulp-doc-docker.git"
 
 EXPOSE 8000
 
