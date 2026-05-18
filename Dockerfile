@@ -42,7 +42,7 @@ RUN RUN set -eux; \
 
 LABEL org.opencontainers.image.licenses="MIT"
       
-LABEL org.opencontainers.image.source="https://github.com/x3n0-z3tIone/pulp-doc-docker.git"
+LABEL org.opencontainers.image.source="https://github.com/iralthereal/pulp-doc-docker.git"
 
 EXPOSE 8000
 
