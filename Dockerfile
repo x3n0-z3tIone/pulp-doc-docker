@@ -1,4 +1,6 @@
-FROM python:3.11.12-slim-bookworm
+ARG BUILD=linux/amd64
+
+FROM --platform=$BUILD python:3.11.12-slim-bookworm AS mkdocs
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
@@ -50,6 +52,22 @@ LABEL org.opencontainers.image.licenses="MIT"
       
 LABEL org.opencontainers.image.source="https://github.com/iralthereal/pulp-doc-docker.git"
 
-EXPOSE 8000
+RUN cd /opt/pulp/pulp-docs && pulp-docs build
 
-CMD ["bash", "-c", "cd /opt/pulp/pulp-docs && pulp-docs serve --dev-addr=0.0.0.0:8000"]
+#EXPOSE 8000
+
+#CMD ["bash", "-c", "cd /opt/pulp/pulp-docs && pulp-docs serve --dev-addr=0.0.0.0:8000"]
+
+FROM nginx:alpine
+
+COPY --from=mkdocs /opt/pulp/pulp-docs/site/ /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+RUN apk update && apk upgrade --no-cache
+
+LABEL org.opencontainers.image.licenses="MIT"
+
+LABEL org.opencontainers.image.source="https://github.com/iralthereal/pulp-doc-docker.git"
+
+EXPOSE 8000
