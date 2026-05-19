@@ -14,6 +14,12 @@ on:
     tags: [ 'latest' ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+   inputs:
+     reason:
+      description: 'why do you start Manually?'
+      required: false
+      default: 'update Alpinebase'
 
 env:
   # Use docker.io for Docker Hub if empty
